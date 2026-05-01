@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expert Design Hub — Project Inquiry Form</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --brand: #f97316;
+            --brand-dark: #ea580c;
+            --brand-light: rgba(249, 115, 22, 0.1);
+            --brand-muted: rgba(249, 115, 22, 0.2);
+            --success: #22c55e;
+            --success-bg: rgba(34, 197, 94, 0.1);
+            --error: #ef4444;
+            --error-bg: rgba(239, 68, 68, 0.1);
+            --bg-body: #0a0a0a;
+            --bg-card: #171717;
+            --bg-input: #262626;
+            --border: #333333;
+            --text-main: #ffffff;
+            --text-muted: #a3a3a3;
+            --text-dim: #737373;
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 24px;
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-body);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(234, 88, 12, 0.1) 0px, transparent 50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 3rem 1rem;
+            color: var(--text-main);
+        }
+
+        /* ── Card ── */
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 850px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        /* ── Card Header ── */
+        .card-header {
+            padding: 3.5rem 3rem 2.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo-wrap img {
+            height: 75px;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 15px rgba(249, 115, 22, 0.3));
+        }
+
+        @media (max-width: 768px) {
+            .logo-wrap img {
+                height: 55px;
+            }
+        }
+
+        .card-header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.04em;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-header p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 550px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* ── Form Body ── */
+        .card-body {
+            padding: 3rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.75rem;
+        }
+
+        .field-full {
+            grid-column: span 2;
+        }
+
+        /* ── Section Titles ── */
+        .section-title {
+            grid-column: span 2;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--brand);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-top: 3rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title::after {
+            content: "";
+            height: 1px;
+            flex: 1;
+            background: var(--border);
+        }
+
+        /* ── Floating Label ── */
+        .float-wrap {
+            position: relative;
+            margin-top: 12px;
+        }
+
+        .float-label {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            pointer-events: none;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .float-wrap.textarea-wrap .float-label {
+            top: 1.5rem;
+            transform: none;
+        }
+
+        .float-wrap.has-value .float-label,
+        .float-wrap.focused .float-label {
+            top: 0.7rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--brand);
+            transform: translateY(0);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 1.75rem 1.25rem 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            font-family: inherit;
+            font-size: 1rem;
+            background: var(--bg-input);
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.25s;
+        }
+
+        .input-field:focus {
+            border-color: var(--brand);
+            background: #1c1c1c;
+            box-shadow: 0 0 0 5px rgba(249, 115, 22, 0.1);
+        }
+
+        select.input-field {
+            cursor: pointer;
+            appearance: none;
+        }
+
+        select.input-field option {
+            background: var(--bg-card);
+            color: var(--text-main);
+        }
+
+        textarea.input-field {
+            min-height: 160px;
+            resize: vertical;
+        }
+
+        /* ── Service & Custom Selection Cards ── */
+        .grid-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+            grid-column: span 2;
+        }
+
+        .selection-card {
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            position: relative;
+        }
+
+        .selection-card:hover {
+            border-color: var(--text-dim);
+            transform: translateY(-4px);
+            background: #2a2a2a;
+        }
+
+        .selection-card.selected {
+            border-color: var(--brand);
+            background: var(--brand-light);
+            box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+        }
+
+        .selection-card .icon-box {
+            width: 52px;
+            height: 52px;
+            background: var(--border);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: all 0.25s;
+        }
+
+        .selection-card.selected .icon-box {
+            background: var(--brand);
+            color: #fff;
+            transform: rotate(-5deg);
+        }
+
+        .selection-card span {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            line-height: 1.3;
+        }
+
+        .selection-card.selected span {
+            color: var(--brand);
+        }
+
+        .selection-card .check-icon {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 20px;
+            height: 20px;
+            background: var(--brand);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.25s;
+        }
+
+        .selection-card.selected .check-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ── Scheduling Grid ── */
+        .schedule-container {
+            grid-column: span 2;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .day-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .time-range-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .schedule-card {
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .schedule-card:hover {
+            border-color: var(--text-dim);
+            background: #2a2a2a;
+            transform: translateY(-2px);
+        }
+
+        .schedule-card.selected {
+            border-color: var(--brand);
+            background: var(--brand-light);
+        }
+
+        .schedule-card .card-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--text-main);
+        }
+
+        .schedule-card .card-sub {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        .schedule-card.selected .card-title {
+            color: var(--brand);
+        }
+
+        .time-range-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .time-range-card .time-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .schedule-card.selected .time-icon {
+            background: var(--brand);
+            color: #fff;
+        }
+
+        /* ── Submit Button ── */
+        .submit-btn {
+            grid-column: span 2;
+            background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 1.25rem 3.5rem;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(249, 115, 22, 0.3);
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(249, 115, 22, 0.4);
+            opacity: 0.95;
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* ── Footer ── */
+        .card-footer {
+            padding: 2.5rem 3rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .card-footer p {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .card-footer svg {
+            width: 20px;
+            color: var(--success);
+        }
+
+        /* ── Success Message ── */
+        #success-msg {
+            display: none;
+            text-align: center;
+            padding: 5rem 3rem;
+        }
+
+        #success-msg .success-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--success-bg);
+            color: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2.5rem;
+        }
+
+        #success-msg h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.05em;
+        }
+
+        #success-msg p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 500px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field-full,
+            .submit-btn,
+            .section-title {
+                grid-column: span 1;
+            }
+
+            .grid-selector {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .card-header,
+            .card-body,
+            .card-footer {
+                padding: 2.5rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div id="form-container">
+            <div class="card-header">
+                <div class="logo-wrap">
+                    <img src="./logo.png" alt="Expert Design Hub">
+                </div>
+                <h1>Start Your Project</h1>
+                <p>Tell us about your vision and choose your preferred contact time. We'll build a custom strategy
+                    tailored to your business goals.</p>
+            </div>
+
+            <div class="card-body">
+                <form id="inquiry-form" autocomplete="off">
+                    <!-- Client Details -->
+                    <div class="section-title">Client Information</div>
+
+                    <div class="float-wrap">
+                        <label class="float-label">Full Name</label>
+                        <input type="text" id="name" class="input-field" required>
+                    </div>
+
+                    <div class="float-wrap">
+                        <label class="float-label">Email Address</label>
+                        <input type="email" id="email" class="input-field" required>
+                    </div>
+
+                    <div class="float-wrap">
+                        <label class="float-label">Phone Number</label>
+                        <input type="tel" id="phone" class="input-field" required>
+                    </div>
+
+                    <div class="float-wrap">
+                        <label class="float-label">Company Name</label>
+                        <input type="text" id="company" class="input-field">
+                    </div>
+
+                    <!-- Services Grid -->
+                    <div class="section-title">Services Required</div>
+                    <div class="grid-selector">
+                        <!-- Software Dev -->
+                        <div class="selection-card service-card" data-value="software-dev">
+                            <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="4">
+                                    <path d="M20 6L9 17l-5-5" />
+                                </svg></div>
+                            <div class="icon-box">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="16 18 22 12 16 6"></polyline>
+                                    <polyline points="8 6 2 12 8 18"></polyline>
+                                </svg>
+                            </div>
+                            <span>Software Development</span>
+                        </div>
+                        <!-- Web Dev -->
+                        <div class="selection-card service-card" data-value="web-dev">
+                            <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="4">
+                                    <path d="M20 6L9 17l-5-5" />
+                                </svg></div>
+                            <div class="icon-box">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                                </svg>
+                            </div>
+                            <span>Web Development</span>
+                        </div>
+                        <!-- Mobile App -->
+                        <div class="selection-card service-card" data-value="mobile-app">
+                            <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="4">
+                                    <path d="M20 6L9 17l-5-5" />
+                                </svg></div>
+                            <div class="icon-box">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                                    <line x1="12" y1="18" x2="12" y2="18"></line>
+                                </svg>
+                            </div>
+                            <span>Mobile App Development</span>
+                        </div>
+                        <!-- Wordpress -->
+                        <div class="selection-card service-card" data-value="wordpress-dev">
+                            <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="4">
+                                    <path d="M20 6L9 17l-5-5" />
+                                </svg></div>
+                            <div class="icon-box">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M12 16v-4"></path>
+                                    <path d="M12 8h.01"></path>
+                                </svg>
+                            </div>
+                            <span>WordPress Development</span>
+                        </div>
+                        <!-- SEO -->
+                        <div class="selection-card service-card" data-value="seo">
+                            <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="4">
+                                    <path d="M20 6L9 17l-5-5" />
+                                </svg></div>
+                            <div class="icon-box">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </div>
+                            <span>SEO Optimization</span>
+                        </div>
+                        <!-- Digital Marketing -->
+                        <div class="selection-card service-card" data-value="digital-marketing">
+                            <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="4">
+                                    <path d="M20 6L9 17l-5-5" />
+                                </svg></div>
+                            <div class="icon-box">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 8a3 3 0 00-3-3H5a3 3 0 00-3 3v8a3 3 0 003 3h10a3 3 0 003-3V8z"></path>
+                                    <path d="M22 12l-4-4v8l4-4z"></path>
+                                </svg>
+                            </div>
+                            <span>Digital Marketing</span>
+                        </div>
+                        <!-- Video Animation -->
+                        <div class="selection-card service-card" data-value="video-animation">
+                            <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="4">
+                                    <path d="M20 6L9 17l-5-5" />
+                                </svg></div>
+                            <div class="icon-box">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+                                    <line x1="7" y1="2" x2="7" y2="22"></line>
+                                    <line x1="17" y1="2" x2="17" y2="22"></line>
+                                </svg>
+                            </div>
+                            <span>Video Animation</span>
+                        </div>
+                        <!-- AI Chatbots -->
+                        <div class="selection-card service-card" data-value="ai-chatbots">
+                            <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="4">
+                                    <path d="M20 6L9 17l-5-5" />
+                                </svg></div>
+                            <div class="icon-box">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 8V4H8"></path>
+                                    <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+                                    <circle cx="12" cy="5" r="2"></circle>
+                                </svg>
+                            </div>
+                            <span>AI Chatbots & Automation</span>
+                        </div>
+                        <!-- UI/UX -->
+                        <div class="selection-card service-card" data-value="uiux">
+                            <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="4">
+                                    <path d="M20 6L9 17l-5-5" />
+                                </svg></div>
+                            <div class="icon-box">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                                    <path d="M2 17l10 5 10-5"></path>
+                                </svg>
+                            </div>
+                            <span>UI/UX Design</span>
+                        </div>
+                        <!-- Graphics -->
+                        <div class="selection-card service-card" data-value="graphics">
+                            <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="4">
+                                    <path d="M20 6L9 17l-5-5" />
+                                </svg></div>
+                            <div class="icon-box">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                                    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                                </svg>
+                            </div>
+                            <span>Logo & Graphics Design</span>
+                        </div>
+                    </div>
+                    <input type="hidden" id="selected-services" name="services" required>
+
+                    <!-- Project Info -->
+                    <div class="section-title">Project Scope</div>
+
+                    <div class="float-wrap">
+                        <label class="float-label">Estimated Budget</label>
+                        <select id="budget" class="input-field" required>
+                            <option value="" selected disabled></option>
+                            <option value="below-1k">Below $1,000</option>
+                            <option value="1k-3k">$1,000 - $3,000</option>
+                            <option value="3k-5k">$3,000 - $5,000</option>
+                            <option value="5k-10k">$5,000 - $10,000</option>
+                            <option value="10k-plus">$10,000+</option>
+                        </select>
+                    </div>
+
+                    <div class="float-wrap">
+                        <label class="float-label">Desired Timeline</label>
+                        <select id="timeline" class="input-field" required>
+                            <option value="" selected disabled></option>
+                            <option value="urgent">Urgent ( < 2 weeks )</option>
+                            <option value="1-month">Around 1 Month</option>
+                            <option value="2-3-months">2-3 Months</option>
+                            <option value="flexible">Flexible</option>
+                        </select>
+                    </div>
+
+                    <div class="float-wrap textarea-wrap field-full">
+                        <label class="float-label">Tell us about your project requirements...</label>
+                        <textarea id="description" class="input-field" required></textarea>
+                    </div>
+
+                    <!-- Custom Intelligent Scheduling -->
+                    <div class="section-title">When should we reach out?</div>
+                    <div class="schedule-container">
+                        <div class="day-selector">
+                            <div class="schedule-card day-card" data-day="Monday">
+                                <div class="card-title">Mon</div>
+                                <div class="card-sub">Next week</div>
+                            </div>
+                            <div class="schedule-card day-card" data-day="Tuesday">
+                                <div class="card-title">Tue</div>
+                                <div class="card-sub">Available</div>
+                            </div>
+                            <div class="schedule-card day-card" data-day="Wednesday">
+                                <div class="card-title">Wed</div>
+                                <div class="card-sub">Available</div>
+                            </div>
+                            <div class="schedule-card day-card" data-day="Thursday">
+                                <div class="card-title">Thu</div>
+                                <div class="card-sub">Fastest</div>
+                            </div>
+                            <div class="schedule-card day-card" data-day="Friday">
+                                <div class="card-title">Fri</div>
+                                <div class="card-sub">Available</div>
+                            </div>
+                            <div class="schedule-card day-card" data-day="Saturday">
+                                <div class="card-title">Sat</div>
+                                <div class="card-sub">Weekend</div>
+                            </div>
+                        </div>
+
+                        <div class="time-range-grid">
+                            <div class="schedule-card time-range-card slot-card" data-time="Morning (9 AM - 12 PM)">
+                                <div class="time-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2.5">
+                                        <path
+                                            d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41">
+                                        </path>
+                                    </svg></div>
+                                <div>
+                                    <div class="card-title">Morning</div>
+                                    <div class="card-sub">9:00 AM - 12:00 PM</div>
+                                </div>
+                            </div>
+                            <div class="schedule-card time-range-card slot-card" data-time="Afternoon (12 PM - 4 PM)">
+                                <div class="time-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2.5">
+                                        <circle cx="12" cy="12" r="5"></circle>
+                                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                                    </svg></div>
+                                <div>
+                                    <div class="card-title">Afternoon</div>
+                                    <div class="card-sub">12:00 PM - 4:00 PM</div>
+                                </div>
+                            </div>
+                            <div class="schedule-card time-range-card slot-card" data-time="Evening (4 PM - 8 PM)">
+                                <div class="time-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2.5">
+                                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                                    </svg></div>
+                                <div>
+                                    <div class="card-title">Evening</div>
+                                    <div class="card-sub">4:00 PM - 8:00 PM</div>
+                                </div>
+                            </div>
+                            <div class="schedule-card time-range-card slot-card" data-time="Any Time (Flexible)">
+                                <div class="time-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2.5">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg></div>
+                                <div>
+                                    <div class="card-title">Any Time</div>
+                                    <div class="card-sub">I'm flexible all day</div>
+                                </div>
+                            </div>
+                            <div class="schedule-card time-range-card slot-card" data-time="Specific Time Only">
+                                <div class="time-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2.5">
+                                        <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 113 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg></div>
+                                <div>
+                                    <div class="card-title">Specific Time</div>
+                                    <div class="card-sub">I'll specify my hours</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="specific-time-wrap" style="display: none; margin-top: 1rem;">
+                            <div class="float-wrap">
+                                <label class="float-label">Please specify your available hours (e.g., 2 PM - 3 PM
+                                    only)</label>
+                                <input type="text" id="specific-time-detail" class="input-field">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="selected-day" name="preferred_day">
+                    <input type="hidden" id="selected-time" name="preferred_time">
+
+                    <button type="submit" class="submit-btn">
+                        <span>Submit Inquiry</span>
+                    </button>
+                </form>
+            </div>
+
+            <div class="card-footer">
+                <p>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <path d="M20 6L9 17l-5-5" />
+                    </svg>
+                    Your inquiry is protected by 256-bit encryption.
+                </p>
+            </div>
+        </div>
+
+        <div id="success-msg">
+            <div class="success-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <h2>Inquiry Received!</h2>
+            <p>Thank you for reaching out. Our team has received your inquiry and will contact you at your preferred
+                time.</p>
+            <button onclick="location.reload()" class="submit-btn"
+                style="margin: 0 auto; width: auto; padding: 1.25rem 4rem;">Back to Home</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('inquiry-form');
+            const inputs = document.querySelectorAll('.input-field');
+            const serviceCards = document.querySelectorAll('.service-card');
+            const dayCards = document.querySelectorAll('.day-card');
+            const slotCards = document.querySelectorAll('.slot-card');
+
+            const servicesInput = document.getElementById('selected-services');
+            const dayInput = document.getElementById('selected-day');
+            const timeInput = document.getElementById('selected-time');
+
+            let selectedServices = [];
+
+            // Floating Labels
+            function checkValue(input) {
+                const wrap = input.closest('.float-wrap');
+                if (wrap) {
+                    wrap.classList.toggle('has-value', input.value.length > 0);
+                }
+            }
+
+            inputs.forEach(input => {
+                input.addEventListener('focus', () => input.closest('.float-wrap').classList.add('focused'));
+                input.addEventListener('blur', () => {
+                    input.closest('.float-wrap').classList.remove('focused');
+                    checkValue(input);
+                });
+                input.addEventListener('input', () => checkValue(input));
+                checkValue(input);
+            });
+
+            // Service Card Selection (Multi-select)
+            serviceCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const val = card.dataset.value;
+                    if (selectedServices.includes(val)) {
+                        selectedServices = selectedServices.filter(s => s !== val);
+                        card.classList.remove('selected');
+                    } else {
+                        selectedServices.push(val);
+                        card.classList.add('selected');
+                    }
+                    servicesInput.value = selectedServices.join(',');
+                });
+            });
+
+            // Day Selection (Single-select)
+            dayCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    dayCards.forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    dayInput.value = card.dataset.day;
+                });
+            });
+
+            // Time Selection (Single-select)
+            slotCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    slotCards.forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    const val = card.dataset.time;
+                    timeInput.value = val;
+
+                    // Show/Hide specific time detail input
+                    const specificWrap = document.getElementById('specific-time-wrap');
+                    if (val === 'Specific Time Only') {
+                        specificWrap.style.display = 'block';
+                    } else {
+                        specificWrap.style.display = 'none';
+                    }
+                });
+            });
+
+            // Form Submission
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                if (selectedServices.length === 0) {
+                    alert('Please select at least one service.');
+                    return;
+                }
+
+                if (!dayInput.value || !timeInput.value) {
+                    alert('Please select your preferred day and time for a contact.');
+                    return;
+                }
+
+                const btn = form.querySelector('.submit-btn');
+                btn.disabled = true;
+                btn.innerHTML = '<span>Sending...</span>';
+
+                let finalTime = timeInput.value;
+                if (finalTime === 'Specific Time Only') {
+                    finalTime = `Specific Time: ${document.getElementById('specific-time-detail').value}`;
+                }
+
+                // Collect final data
+                const finalInquiry = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    company: document.getElementById('company').value,
+                    services: selectedServices,
+                    budget: document.getElementById('budget').value,
+                    timeline: document.getElementById('timeline').value,
+                    description: document.getElementById('description').value,
+                    preferredContact: `${dayInput.value} at ${finalTime}`
+                };
+
+                console.log('Final Inquiry Submitted:', finalInquiry);
+
+                // Simulate submission
+                setTimeout(() => {
+                    document.getElementById('form-container').style.display = 'none';
+                    document.getElementById('success-msg').style.display = 'block';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+
+</html>
