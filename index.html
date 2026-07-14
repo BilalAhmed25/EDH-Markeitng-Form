@@ -956,22 +956,40 @@
                     name: document.getElementById('name').value,
                     email: document.getElementById('email').value,
                     phone: document.getElementById('phone').value,
-                    company: document.getElementById('company').value,
-                    services: selectedServices,
+                    client_company: document.getElementById('company').value,
+                    company: "Experts Design Hub", // Identifies the source company for the shared API
+                    services: selectedServices.join(', '),
                     budget: document.getElementById('budget').value,
                     timeline: document.getElementById('timeline').value,
                     description: document.getElementById('description').value,
                     preferredContact: `${dayInput.value} at ${finalTime}`
                 };
 
-                console.log('Final Inquiry Submitted:', finalInquiry);
+                console.log('Sending Inquiry:', finalInquiry);
 
-                // Simulate submission
-                setTimeout(() => {
-                    document.getElementById('form-container').style.display = 'none';
-                    document.getElementById('success-msg').style.display = 'block';
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }, 1500);
+                // Real API Submission
+                fetch('https://api.expertdesignhub.com/noAuth/marketing-query', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(finalInquiry)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById('form-container').style.display = 'none';
+                        document.getElementById('success-msg').style.display = 'block';
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                        throw new Error('Server responded with an error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error submitting form:', error);
+                    alert('There was an issue sending your inquiry. Please try again or contact us directly.');
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>Submit Inquiry</span>';
+                });
             });
         });
     </script>
